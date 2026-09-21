@@ -1,0 +1,12 @@
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
+const require = createRequire(process.env.STOCAT_TEST_DEPS ? process.env.STOCAT_TEST_DEPS + '/package.json' : import.meta.url);
+const { minify } = require('terser');
+const path = new URL('../index.html', import.meta.url);
+let html = fs.readFileSync(path,'utf8');
+const source=/<script id="core-script">([\s\S]*?)<\/script>/.exec(html)[1];
+const result=await minify(source,{compress:true,mangle:true,format:{comments:false,inline_script:true}});
+html=html.replace(/<script id="min-core" type="text\/plain">[\s\S]*?<\/script>\s*/,'');
+html=html.replace('<script id="editor-script">','<script id="min-core" type="text/plain">'+result.code+'</script>\n<script id="editor-script">');
+fs.writeFileSync(path,html);
+console.log(`Game engine: ${Buffer.byteLength(source)} → ${Buffer.byteLength(result.code)} bytes`);

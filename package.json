@@ -1,0 +1,14 @@
+{
+  "name": "find-cat-editor",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/editor.test.mjs",
+    "build": "node tools/build-compact.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0",
+    "terser": "5.39.0"
+  }
+}

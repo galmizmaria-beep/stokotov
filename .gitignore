@@ -1,0 +1,6 @@
+.DS_Store
+*.log
+node_modules/
+project.stocats.json
+100-cats-game*.html
+.test-output/
